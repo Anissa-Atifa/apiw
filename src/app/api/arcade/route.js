@@ -439,7 +439,7 @@ export async function POST(request) {
       }
 
       memoryStore.appConfig = updatedConfig;
-      return NextResponse.json({ ok: true, item, source: "memory-fallback" });
+      return NextResponse.json({ ok: true, item: updatedConfig, source: "memory-fallback" });
     }
 
     return NextResponse.json({ ok: false, error: "Aksi tidak dikenali." }, { status: 400 });

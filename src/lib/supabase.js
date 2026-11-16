@@ -12,9 +12,9 @@ import {
 // dan kebal terhadap kesalahan ketik di Environment Variables Vercel!
 // ============================================================================
 
-const BUILTIN_SUPABASE_URL = "https://rhhrofilapqdyltzmbwq.supabase.co";
+const BUILTIN_SUPABASE_URL = "https://rhhrofllapqdyltzmbwq.supabase.co";
 const BUILTIN_SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoaHJvZmlsYXBxZHlsdHptYndxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ4MTA0MTgsImV4cCI6MjExMDM4NjQxOH0.oZP30aSQAuruekEoyZficg73mEYIwCm5fvfQSSJTI9U";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoaHJvZmxsYXBxZHlsdHptYndxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ4MTA0MTgsImV4cCI6MjExMDM4NjQxOH0.oZP30aSQAuruekEoyZficg73mEYIwCm5fvfQSSJTI9U";
 
 const rawEnvUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim();
 const rawEnvKey = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "").trim();
