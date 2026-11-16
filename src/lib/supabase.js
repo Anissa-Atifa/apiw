@@ -7,21 +7,33 @@ import {
 } from "./defaultData";
 
 // ============================================================================
-// SUPABASE CLIENT & SAFE FALLBACK MEMORY STORE
-// Jika variabel environment Supabase sudah diisi di Vercel / .env.local,
-// aplikasi otomatis menggunakan Supabase PostgreSQL secara penuh.
-// Jika belum diisi saat uji coba awal, aplikasi tetap berjalan lancar tanpa error!
+// KONFIGURASI OTOMATIS DATABASE CLOUD SUPABASE (APIW-BIRTHDAY)
+// Otomatis menggunakan URL & Anon Public Key project "rhhrofilapqdyltzmbwq"
+// dan kebal terhadap kesalahan ketik di Environment Variables Vercel!
 // ============================================================================
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const BUILTIN_SUPABASE_URL = "https://rhhrofilapqdyltzmbwq.supabase.co";
+const BUILTIN_SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoaHJvZmlsYXBxZHlsdHptYndxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ4MTA0MTgsImV4cCI6MjExMDM4NjQxOH0.oZP30aSQAuruekEoyZficg73mEYIwCm5fvfQSSJTI9U";
 
-export const isSupabaseConfigured = Boolean(
-  supabaseUrl &&
-    supabaseAnonKey &&
-    !supabaseUrl.includes("your-project-id") &&
-    !supabaseAnonKey.includes("your-supabase")
-);
+const rawEnvUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim();
+const rawEnvKey = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "").trim();
+
+// Gunakan env var hanya jika formatnya valid (https://...supabase.co dan eyJ...),
+// jika tidak valid/kosong, otomatis pakai koneksi bawaan apiw-birthday!
+const supabaseUrl =
+  rawEnvUrl.startsWith("https://") &&
+  rawEnvUrl.includes(".supabase.co") &&
+  !rawEnvUrl.includes("your-project-id")
+    ? rawEnvUrl
+    : BUILTIN_SUPABASE_URL;
+
+const supabaseAnonKey =
+  rawEnvKey.startsWith("eyJ") && !rawEnvKey.includes("your-supabase")
+    ? rawEnvKey
+    : BUILTIN_SUPABASE_ANON_KEY;
+
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
 export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey, {
@@ -29,7 +41,7 @@ export const supabase = isSupabaseConfigured
     })
   : null;
 
-// Penyimpanan fallback di memori server jika Supabase belum disambungkan
+// Penyimpanan fallback di memori server jika sewaktu-waktu offline
 if (!globalThis.__APIW_ARCADE_STORE__) {
   globalThis.__APIW_ARCADE_STORE__ = {
     appConfig: { ...DEFAULT_APP_CONFIG },
@@ -58,7 +70,6 @@ export function getJakartaTimestamp() {
 }
 
 // Generator Kode Unik Sekuensial Anti-Tabrakan (MAX + 1)
-// Contoh: WSH-20261117-001, QST-202611-005, PHO-202611-004
 export function generateSequentialId(prefix, existingIds = []) {
   const now = new Date();
   const yyyy = now.getFullYear();
@@ -68,7 +79,7 @@ export function generateSequentialId(prefix, existingIds = []) {
 
   let maxNum = 0;
   for (const rawId of existingIds) {
-    if (typeof rawId === "string" && rawId.startsWith( prefix + "-")) {
+    if (typeof rawId === "string" && rawId.startsWith(prefix + "-")) {
       const parts = rawId.split("-");
       const lastPart = parseInt(parts[parts.length - 1], 10);
       if (!Number.isNaN(lastPart) && lastPart > maxNum) {

@@ -14,6 +14,13 @@ import {
 } from "../../../lib/supabase";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const NO_CACHE_HEADERS = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+  Pragma: "no-cache",
+  Expires: "0"
+};
 
 // Pemisah khusus untuk menyimpan foto opsional di dalam kolom story (TEXT) pada tabel MemoryQuests
 // sehingga 100% kompatibel dengan tabel Supabase yang sudah ada tanpa perlu ALTER TABLE
@@ -144,15 +151,18 @@ export async function GET(request) {
 
       if (!cfgRes.error && !questRes.error && !photoRes.error && !wishRes.error) {
         const unpackedQuests = (questRes.data || DEFAULT_MEMORY_QUESTS).map(unpackQuestRow);
-        return NextResponse.json({
-          ok: true,
-          source: "supabase",
-          appConfig: cfgRes.data || DEFAULT_APP_CONFIG,
-          memoryQuests: unpackedQuests,
-          photoVault: photoRes.data || DEFAULT_PHOTO_VAULT,
-          birthdayWishes: wishRes.data || DEFAULT_BIRTHDAY_WISHES,
-          totalWishes: wishRes.count ?? (wishRes.data ? wishRes.data.length : 0)
-        });
+        return NextResponse.json(
+          {
+            ok: true,
+            source: "supabase",
+            appConfig: cfgRes.data || DEFAULT_APP_CONFIG,
+            memoryQuests: unpackedQuests,
+            photoVault: photoRes.data || DEFAULT_PHOTO_VAULT,
+            birthdayWishes: wishRes.data || DEFAULT_BIRTHDAY_WISHES,
+            totalWishes: wishRes.count ?? (wishRes.data ? wishRes.data.length : 0)
+          },
+          { headers: NO_CACHE_HEADERS }
+        );
       }
     }
 
