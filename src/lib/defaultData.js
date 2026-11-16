@@ -1,11 +1,10 @@
 // ============================================================================
 // DATA AWAL BAWAAN (DEFAULT ROMANTIC SEED DATA)
-// Semua teks, foto, barcode Spotify, dan jadwal Date Kamis Blok M di bawah ini
-// otomatis tampil saat web pertama dibuka dan BISA DIEDIT LANGSUNG DARI WEB
+// Semua teks, foto cerita (opsional), multi-foto kenangan, barcode Spotify,
+// dan jadwal Date Kamis Blok M otomatis tampil dan BISA DIEDIT LANGSUNG DARI WEB
 // menggunakan PIN Rahasia: 250325 (Tanggal Jadian 25 Maret 2025)
 // ============================================================================
 
-// Ilustrasi SVG Cyberpunk Romantis bawaan (sebelum foto asli diupload lewat PIN 250325)
 const createRomanticSvgDataUri = (title, subtitle, accentHex) => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520">
     <defs>
@@ -31,7 +30,7 @@ const createRomanticSvgDataUri = (title, subtitle, accentHex) => {
     <path d="M400 310 C400 310 310 245 310 185 C310 150 340 125 370 125 C388 125 400 138 400 148 C400 138 412 125 430 125 C460 125 490 150 490 185 C490 245 400 310 400 310 Z" fill="#ff007f" fill-opacity="0.88" stroke="#00f3ff" stroke-width="3"/>
     <text x="400" y="375" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="28" font-weight="bold">${title}</text>
     <text x="400" y="418" text-anchor="middle" fill="${accentHex}" font-family="monospace" font-size="18">${subtitle}</text>
-    <text x="400" y="456" text-anchor="middle" fill="#9ca3af" font-family="sans-serif" font-size="14">Klik tombol Gembok PIN (250325) di pojok kanan atas untuk ganti dengan foto asli kalian</text>
+    <text x="400" y="456" text-anchor="middle" fill="#9ca3af" font-family="sans-serif" font-size="14">Klik tombol Gembok PIN (250325) di pojok kanan atas untuk upload foto asli kalian</text>
   </svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
@@ -109,7 +108,8 @@ export const DEFAULT_MEMORY_QUESTS = [
     story:
       "Dari obrolan sederhana yang awalnya biasa aja, tiba-tiba berubah jadi notifikasi yang paling aku tunggu setiap hari. Sejak awal ngobrol sama kamu, aku udah ngerasa kalau kamu itu beda dan super nyaman diajak cerita apa aja.",
     badgeText: "+500 SPARK XP",
-    sortOrder: 1
+    sortOrder: 1,
+    imageUrl: createRomanticSvgDataUri("CHAPTER 01 PHOTO", "FIRST ENCOUNTER", "#00ff66")
   },
   {
     id: "QST-202611-002",
@@ -119,7 +119,8 @@ export const DEFAULT_MEMORY_QUESTS = [
     story:
       "Tanggal 25.03.2025 resmi jadi salah satu hari paling membahagiakan buat aku. Hari di mana kita mulai jalan bareng sebagai pasangan, saling jaga, dan jadi tim terbaik buat satu sama lain.",
     badgeText: "LOCKED IN: 25.03.25",
-    sortOrder: 2
+    sortOrder: 2,
+    imageUrl: createRomanticSvgDataUri("25 MARET 2025", "OFFICIAL COUPLE <3", "#ff007f")
   },
   {
     id: "QST-202611-003",
@@ -129,7 +130,8 @@ export const DEFAULT_MEMORY_QUESTS = [
     story:
       "Entah itu jalan-jalan santai, cari makan enak berdua, ngobrolin kerjaan dan masa depan, atau sekadar duduk bareng—semua momen sama kamu selalu berhasil bikin hari-hariku jauh lebih berwarna.",
     badgeText: "+9999 HAPPINESS",
-    sortOrder: 3
+    sortOrder: 3,
+    imageUrl: "" // Contoh cerita tanpa foto (opsional, tetap rapi!)
   },
   {
     id: "QST-202611-004",
@@ -139,7 +141,8 @@ export const DEFAULT_MEMORY_QUESTS = [
     story:
       "Hari ini kamu resmi naik ke Level 25! Aku bangga banget sama semua kerja keras dan perjalananmu sejauh ini. Semoga di usia 25 ini kamu selalu dikelilingi kebahagiaan, kesehatan, rezeki yang deras, dan kita terus bareng selamanya!",
     badgeText: "BIRTHDAY BOY LVL 25",
-    sortOrder: 4
+    sortOrder: 4,
+    imageUrl: createRomanticSvgDataUri("LEVEL 25 UNLOCKED", "HAPPY BIRTHDAY APIW!", "#00f3ff")
   }
 ];
 
@@ -147,24 +150,36 @@ export const DEFAULT_PHOTO_VAULT = [
   {
     id: "PHO-202611-001",
     title: "Our Sweet Beginning",
-    imageUrl: createRomanticSvgDataUri("MEMORY PHOTO #01", "25 MARET 2025", "#00ff66"),
-    caption: "Momen manis waktu kita resmi mulai cerita berdua. Senyum kamu di sini selalu jadi favorit aku!",
+    imageUrl: JSON.stringify([
+      createRomanticSvgDataUri("MOMENT #01 - SLIDE 1", "25 MARET 2025 (SWIPE ->)", "#00ff66"),
+      createRomanticSvgDataUri("MOMENT #01 - SLIDE 2", "SENYUM FAVORITKU <3", "#00f3ff")
+    ]),
+    caption:
+      "Momen manis waktu kita resmi mulai cerita berdua. Geser (swipe) fotonya ke samping untuk lihat foto lainnya di momen ini!",
     dateTaken: "25 Maret 2025",
     createdAt: "2026-11-16 12:00:00"
   },
   {
     id: "PHO-202611-002",
     title: "Favorite Date Time",
-    imageUrl: createRomanticSvgDataUri("MEMORY PHOTO #02", "QUALITY TIME", "#ff007f"),
-    caption: "Salah satu hari jalan bareng yang paling seru dan bikin kangen terus kalau lihat fotonya.",
+    imageUrl: JSON.stringify([
+      createRomanticSvgDataUri("DATE TIME - SLIDE 1", "QUALITY TIME BERDUA", "#ff007f"),
+      createRomanticSvgDataUri("DATE TIME - SLIDE 2", "KULINERAN & JALAN SANTAI", "#00ff66"),
+      createRomanticSvgDataUri("DATE TIME - SLIDE 3", "MY SAFE PLACE <3", "#00f3ff")
+    ]),
+    caption:
+      "Hari jalan bareng yang paling seru dan bikin kangen terus kalau lihat deretan fotonya.",
     dateTaken: "Momen Spesial Kita",
     createdAt: "2026-11-16 12:05:00"
   },
   {
     id: "PHO-202611-003",
     title: "Birthday Boy Level 25",
-    imageUrl: createRomanticSvgDataUri("MEMORY PHOTO #03", "17 NOVEMBER • LVL 25", "#00f3ff"),
-    caption: "Selamat ulang tahun yang ke-25 kesayanganku! Terima kasih sudah selalu hadir dan sayang sama aku.",
+    imageUrl: JSON.stringify([
+      createRomanticSvgDataUri("BIRTHDAY BOY LVL 25", "17 NOVEMBER SPECIAL", "#00f3ff")
+    ]),
+    caption:
+      "Selamat ulang tahun yang ke-25 kesayanganku! Terima kasih sudah selalu hadir dan sayang sama aku.",
     dateTaken: "17 November",
     createdAt: "2026-11-16 12:10:00"
   }
@@ -177,7 +192,7 @@ export const DEFAULT_BIRTHDAY_WISHES = [
     dateStatus: "UNDANGAN KAMIS SIAP! 💖",
     preferredSpot: "Bebas jam berapa aja asal bareng Apiw di Blok M!",
     message:
-      "Happy 25th Birthday Babee! Jangan lupa mainin mini-gamenya sampai dapet 5 hati buat buka hadiah rahasia & barcode Spotify dariku, terus isi konfirmasi ngedate hari Kamis di Blok M di sini yaa! Love youuu!",
+      "Happy 25th Birthday Babee! Jangan lupa mainin mini-gamenya sampai tembus 1.000 poin (awas jangan kena bug 3x nanti meledak!) buat buka hadiah rahasia & barcode Spotify dariku, terus isi konfirmasi ngedate hari Kamis di Blok M di sini yaa! Love youuu!",
     createdAt: "17/11/2026 00:01:00"
   }
 ];
